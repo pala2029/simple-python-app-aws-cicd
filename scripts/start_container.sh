@@ -2,7 +2,7 @@
 set -e
 
 # Pull the Docker image from Docker Hub
-echo
+docker pull yasminjeelani/mypythonapp
 
 # Run the Docker image as a container
-echo
+docker run -d --name mypythoncontainer -p 5000:5000 yasminjeelani/mypythonapp
