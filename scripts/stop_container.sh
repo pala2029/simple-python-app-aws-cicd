@@ -2,4 +2,4 @@
 set -e
 
 # Stop the running container (if any)
-docker rm -f mypythoncontainer1
+docker rm -f mypythoncontainer
