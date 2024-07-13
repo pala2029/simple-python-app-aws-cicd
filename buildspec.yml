@@ -13,13 +13,15 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - pip install -r requirements.txt
-  build:
+    build:
     commands:
       - echo "Running tests..."
       - echo "Building Docker image..."
+      - echo "Registry URL: $DOCKER_REGISTRY_URL"
+      - echo "Registry Username: $DOCKER_REGISTRY_USERNAME"
       - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY_URL"
-      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/mypythonapp" .
-      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/mypythonapp"
+      - docker build -t "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/mypythonapp" . || { echo 'Docker build failed'; exit 1; }
+      - docker push "$DOCKER_REGISTRY_URL/$DOCKER_REGISTRY_USERNAME/mypythonapp" || { echo 'Docker push failed'; exit 1; }
   post_build:
     commands:
       - echo "Build completed successfully!"
